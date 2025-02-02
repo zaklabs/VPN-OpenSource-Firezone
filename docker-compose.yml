@@ -19,7 +19,7 @@ services:
     image: firezone/firezone:${VERSION:-latest}
     ports:
       - ${WIREGUARD_PORT:-51820}:${WIREGUARD_PORT:-51820}/udp
-      - 8189:13000 
+      - ${EXTERNAL_PORT:-8189}:13000 
     env_file:
       - ${FZ_INSTALL_DIR:-.}/.env
     volumes:
@@ -35,8 +35,8 @@ services:
       - postgres
     networks:
       firezone-network:
-        ipv4_address: 172.25.0.100
-        ipv6_address: fcff:3990:3990::99
+        ipv4_address: 172.16.28.256
+        ipv6_address: fcff:1708:1998::99
 
     deploy:
       <<: *default-deploy
@@ -66,6 +66,6 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.25.0.0/24
-        - subnet: fcff:3990:3990::/64
-          gateway: fcff:3990:3990::1
+        - subnet: 172.16.28.0/23
+        - subnet: fcff:1708:1998::/119
+          gateway: fcff:1708:1998::1
